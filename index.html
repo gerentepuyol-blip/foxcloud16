@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Foxcloud • Assinatura Premium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; font-family:'Poppins',sans-serif; background:radial-gradient(circle at top,#111 0%,#000 70%); color:#fff; }
+    .container { max-width:560px; margin:auto; padding:22px; }
+    .card { background:linear-gradient(180deg,#151515,#0b0b0b); border-radius:18px; padding:26px;
+      box-shadow:0 0 46px rgba(0,255,150,.09); border:1px solid rgba(255,255,255,.06); }
+
+    .brand { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:10px; }
+    .logoDot { width:12px; height:12px; border-radius:999px; background:linear-gradient(90deg,#00ff99,#00ccff); }
+    .brandName { font-weight:800; letter-spacing:.4px; }
+
+    h1 { text-align:center; margin:10px 0 6px; font-size:22px;
+      background:linear-gradient(90deg,#00ff99,#00ccff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .subtitle { text-align:center; color:#a8a8a8; margin:0 0 14px; font-size:13px; }
+
+    .tabs { display:flex; gap:10px; margin:14px 0 16px; }
+    .tab { flex:1; padding:12px; text-align:center; border-radius:12px;
+      border:1px solid rgba(255,255,255,.16); cursor:pointer; user-select:none; font-size:13px; }
+    .tab.active { background:linear-gradient(90deg,#00ff99,#00ccff); color:#000; font-weight:800; }
+
+    .chips { display:flex; gap:10px; margin:10px 0 16px; }
+    .chip { flex:1; padding:14px; text-align:center; border-radius:12px;
+      border:1px solid rgba(255,255,255,.16); cursor:pointer; user-select:none; font-size:13px; }
+    .chip.active { background:linear-gradient(90deg,#00ff99,#00ccff); color:#000; font-weight:800; }
+
+    .box { background:#0f0f0f; border-radius:12px; padding:16px; border:1px dashed rgba(255,255,255,.16); }
+    .row { display:flex; justify-content:space-between; gap:10px; margin:8px 0; font-size:14px; }
+    .muted { color:#bdbdbd; }
+    .value { font-weight:700; }
+
+    .pixcc { margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,.08); }
+    .ccText {
+      margin-top:10px;
+      width:100%;
+      min-height:110px;
+      resize:none;
+      background:#0b0b0b;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:12px;
+      color:#fff;
+      padding:12px;
+      font-size:12px;
+      line-height:1.35;
+      outline:none;
+      word-break:break-all;
+    }
+
+    .btn { display:block; width:100%; text-align:center; padding:16px; margin-top:14px;
+      background:linear-gradient(90deg,#00ff99,#00ccff); color:#000; font-weight:900; border-radius:12px;
+      text-decoration:none; font-size:16px; }
+    .btnSecondary { display:block; width:100%; text-align:center; padding:12px; margin-top:10px;
+      background:transparent; color:#d8d8d8; border:1px solid rgba(255,255,255,.18); border-radius:12px;
+      text-decoration:none; font-weight:700; font-size:14px; }
+
+    .note { text-align:center; font-size:12px; color:#8a8a8a; margin-top:12px; line-height:1.35; }
+    .toast { display:none; text-align:center; margin-top:10px; font-size:12px; color:#00ff99; }
+    .hint { margin:12px 0 0; font-size:12px; color:#9a9a9a; text-align:center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="brand">
+        <div class="logoDot"></div>
+        <div class="brandName">Foxcloud</div>
+      </div>
+
+      <h1>Assinatura Premium</h1>
+      <p class="subtitle">Filmes, canais e jogos sem interrupções</p>
+
+      <div class="tabs">
+        <div class="tab active" onclick="selectMode('Renovação', this)">✅ Renovar</div>
+        <div class="tab" onclick="selectMode('Contratação', this)">🆕 Contratar</div>
+      </div>
+
+      <div class="chips">
+        <div class="chip active" onclick="selectPlan('30 dias','R$ 25,00', this)">30 DIAS</div>
+        <div class="chip" onclick="selectPlan('60 dias','R$ 40,00', this)">60 DIAS</div>
+        <div class="chip" onclick="selectPlan('90 dias','R$ 55,00', this)">90 DIAS</div>
+      </div>
+
+      <div class="box">
+        <div class="row"><span class="muted">Chave PIX</span><span class="value" id="pixKey">09050097383</span></div>
+        <div class="row"><span class="muted">Recebedor (PIX)</span><span class="value">Lucas Saldanha Lima</span></div>
+        <div class="row"><span class="muted">Tipo</span><span class="value" id="tipo">Renovação</span></div>
+        <div class="row"><span class="muted">Plano</span><span class="value" id="plano">30 dias</span></div>
+        <div class="row"><span class="muted">Valor</span><span class="value" id="valor">R$ 25,00</span></div>
+
+        <div class="pixcc">
+          <div class="row" style="margin-bottom:0;">
+            <span class="muted">PIX Copia e Cola</span>
+            <span class="value" style="font-size:12px;">(cole no app do banco)</span>
+          </div>
+
+          <textarea id="pixCopiaCola" class="ccText" readonly>00020126580014BR.GOV.BCB.PIX0136d4b71e45-0fe4-47c2-99aa-4540d502f1d85204000053039865802BR5919Lucas Saldanha Lima6009SAO PAULO62140510oF613IAIXV6304B9DB</textarea>
+
+          <a class="btnSecondary" href="#" onclick="copyPixCopiaCola(); return false;">📋 Copiar PIX Copia e Cola</a>
+          <a class="btnSecondary" href="#" onclick="copyPixKey(); return false;">📋 Copiar chave PIX</a>
+
+          <div id="toast" class="toast">Copiado ✅</div>
+        </div>
+      </div>
+
+      <a id="whatsappBtn" class="btn" href="#" target="_blank">💬 Enviar no WhatsApp</a>
+
+      <p class="note">
+        Faça o pagamento e depois envie o comprovante no WhatsApp.
+        A ativação/renovação é feita manualmente após confirmação.
+      </p>
+      <p class="hint" id="hintText">Para renovação, informe seu nome/usuário junto do comprovante.</p>
+    </div>
+  </div>
+
+  <script>
+    const WHATSAPP = "5588994950564"; // +55 88 99495-0564
+
+    let tipo = "Renovação";
+    let planoSelecionado = "30 dias";
+    let valorSelecionado = "R$ 25,00";
+
+    function selectMode(newTipo, el){
+      tipo = newTipo;
+      document.getElementById("tipo").innerText = tipo;
+
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+
+      const hint = document.getElementById("hintText");
+      if(tipo === "Contratação"){
+        hint.innerText = "Para contratar, informe seu nome e o tipo de aparelho (TV/Android/iOS) no WhatsApp.";
+      } else {
+        hint.innerText = "Para renovação, informe seu nome/usuário junto do comprovante.";
+      }
+      atualizarWhatsApp();
+    }
+
+    function selectPlan(plano, valor, el){
+      planoSelecionado = plano;
+      valorSelecionado = valor;
+
+      document.getElementById("plano").innerText = planoSelecionado;
+      document.getElementById("valor").innerText = valorSelecionado;
+
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+
+      atualizarWhatsApp();
+    }
+
+    function atualizarWhatsApp(){
+      let msg = "";
+      if(tipo === "Contratação"){
+        msg =
+`Olá! Quero CONTRATAR o acesso premium.%0APlano: ${planoSelecionado}%0AValor: ${valorSelecionado}%0AJá fiz o pagamento via PIX. Segue o comprovante.%0A%0ANome:%0AAparelho (TV/Android/iOS):`;
+      } else {
+        msg =
+`Olá! Já realizei o pagamento da RENOVAÇÃO do acesso premium.%0APlano: ${planoSelecionado}%0AValor: ${valorSelecionado}%0ASegue o comprovante.%0A%0ANome/Usuário:`;
+      }
+      document.getElementById("whatsappBtn").href = `https://wa.me/${WHATSAPP}?text=${msg}`;
+    }
+
+    async function copyText(text){
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      const toast = document.getElementById("toast");
+      toast.innerText = "Copiado ✅";
+      toast.style.display = "block";
+      setTimeout(() => toast.style.display = "none", 1600);
+    }
+
+    function copyPixKey(){
+      copyText(document.getElementById("pixKey").innerText.trim());
+    }
+
+    function copyPixCopiaCola(){
+      copyText(document.getElementById("pixCopiaCola").value.trim());
+    }
+
+    atualizarWhatsApp();
+  </script>
+</body>
+</html>
